@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f4;
+    }
+
+   
+
+    #passwordDialog {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: #e0e2bb;
+      box-shadow: 0 0 10px rgba(215, 6, 223, 0.8);
+      z-index: 1000;
+      border-radius: 8px;
+    }
+
+    input {
+      margin-bottom: 10px;
+      padding: 5px;
+      border-radius: 8px;
+      border: dashed 1px green;
+      
+    }
+
+    .DialogButton {
+      padding: 8px;
+      box-shadow: 0 0 10px rgba(215, 6, 223, 0.8);
+      background-color: #4446ec;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #formBox {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      z-index: 2;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    #formBox label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+      width: 90%;
+      padding: 5px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    #submitBtn {
+      background-color: #3498db;
+      color: #fff;
+      padding: 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #submitBtn:hover {
+      background-color: #2980b9;
+    }
+
+    #listContainer {
+      margin-top: 20px;
+    }
+
+    #listContainer li {
+      list-style-type: none;
+      background-color: #f7eedd;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(187, 12, 240, 0.5);
+    }
+
+    #listContainer li strong {
+      color: #000000;
+    }
+    .dataviewer {
+      padding: 0px 0px 20px 0px;
+      
+    }
+    h2 {
+      background-color: aquamarine;
+    }
+    #amountSum {
+      background-color: #3ab322;
+      color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+    #counter,
+    #sareeSum,
+    #saathSum {
+      background-color: #58a8e9;
+      color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+
+    .addclearbtn {
+      background-color: green;
+      padding: 8px;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+    .addclearbtn1 {
+      background-color: rgb(240, 110, 24);
+      padding: 8px;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+    .addclearbtn2 {
+      background-color: rgb(145, 38, 207);
+      padding: 8px;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;}
+
+    .floating {
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+  <title>Floating Button and Form</title>
+</head>
+<body>
+
+  <div id="passwordDialog">
+    <p>This is password protected.</p>
+    <label for="password">Password:</label>
+    <input type="password" id="password" required>
+    <button id="submitPassword" class="DialogButton">Submit</button>
+  </div>
+
+  <div class="headview">
+    <marque><h2>Guests Contributing in this Event.</h2></marque>
+    <p>Search guest Contribution...</p>
+    <input type="text" id="searchInput" placeholder="Search..." oninput="filterChildren()">
+  </div>
+
+  <!-- Counter -->
+  <div class="dataviewer">
+    <div id="counter">Total Children: 0</div>
+
+    <!-- Amount Sum -->
+    <div id="amountSum">Total Amount: 0</div>
+
+    <!-- Saree Sum -->
+    <div id="sareeSum">Total Saree: 0</div>
+
+    <!-- Saath Sum -->
+    <div id="saathSum">Total Saath: 0</div>
+  </div>
+
+  <!-- Floating Button -->
+  <div class="floating">
+    <button id="floatingButton" class="addclearbtn" onclick="showForm()">Add Guest>></button>
+    <button id="openLinkButton" class="addclearbtn2"> My Guests</button>
+    <button id="openDialogButton" class="addclearbtn1">Clear List</button>
+  </div>
+
+  <!-- Form Box -->
+  <div id="formBox">
+    <form id="myForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" required>
+
+      <label for="amount">Amount:</label>
+      <input type="number" id="amount" required>
+
+      <label for="phone">Phone:</label>
+      <input type="text" id="phone" required>
+
+      <label for="village">Village:</label>
+      <input type="text" id="village" required>
+
+      <!-- Saree Dropdown -->
+      <label for="saree">Saree:</label>
+      <select id="saree" required>
+        <option value="N/A">N/A</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+
+      <!-- Saath Dropdown -->
+      <label for="saath">Saath:</label>
+      <select id="saath" required>
+        <option value="N/A">N/A</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+
+      <button type="button" id="submitBtn" onclick="submitForm()">Submit</button>
+    </form>
+  </div>
+
+  <!-- List Container -->
+  <div id="listContainer"></div>
+
+  <script>
+
+document.getElementById('openLinkButton').addEventListener('click', function () {
+  // Replace 'https://example.com' with the actual link you want to open
+  var linkToOpen = 'https://deepak12577sh.github.io/MyGuestlistsite/';
+
+  // Open the link in the same page
+  window.location.href = linkToOpen;
+});
+
+const openDialogButton = document.getElementById('openDialogButton');
+        const passwordDialog = document.getElementById('passwordDialog');
+        const passwordInput = document.getElementById('password');
+        const submitPasswordButton = document.getElementById('submitPassword');
+
+        openDialogButton.addEventListener('click', () => {
+          const listContainer = document.getElementById('listContainer');
+  if (listContainer.childElementCount === 0) {
+    alert('List container is already empty.');
+  } else {
+    passwordDialog.style.display = 'block';
+  }
+        });
+
+        submitPasswordButton.addEventListener('click', () => {
+            const enteredPassword = passwordInput.value;
+
+            // Check the entered password (for demo purposes, use a specific password)
+            const correctPassword = '123';
+
+            if (enteredPassword === correctPassword) {
+              clearchild();
+                passwordDialog.style.display = 'none';
+                  passwordInput.value = '';
+            } else {
+                alert('  wrong password,fill correct password');
+
+            }
+        });
+
+        function clearchild() {
+  var listContainer = document.getElementById('listContainer');
+  listContainer.innerHTML = '';
+
+  childCount = 0;
+  amountSum = 0;
+  sareeSum = 0;
+  saathSum = 0;
+
+  document.getElementById('counter').innerText = `Total Children: ${childCount}`;
+  document.getElementById('amountSum').innerText = `Total Amount: ${amountSum}`;
+  document.getElementById('sareeSum').innerText = `Total Saree: ${sareeSum}`;
+  document.getElementById('saathSum').innerText = `Total Saath: ${saathSum}`;
+
+   // Remove all counters and list container data from localStorage
+   localStorage.removeItem('children');
+  localStorage.removeItem('amountSum');
+  localStorage.removeItem('sareeSum');
+  localStorage.removeItem('saathSum');
+  
+}
+
+
+   
+   var childCount = 0; // Counter for the number of children
+    var amountSum = 0; // Variable to store the sum of amount
+    var sareeSum = 0;  // Variable to store the sum of saree
+    var saathSum = 0;  // Variable to store the sum of saath
+
+    // Load saved children from localStorage on page load
+    window.onload = function () {
+      var savedChildren = JSON.parse(localStorage.getItem('children')) || [];
+      childCount = savedChildren.length;
+      amountSum = parseInt(localStorage.getItem('amountSum')) || 0;
+      sareeSum = parseInt(localStorage.getItem('sareeSum')) || 0;
+      saathSum = parseInt(localStorage.getItem('saathSum')) || 0;
+
+      // Display saved children
+      savedChildren.forEach(function (child) {
+        displayChild(child);
+      });
+
+      // Update counters
+      document.getElementById('counter').innerText = `Total Children: ${childCount}`;
+      document.getElementById('amountSum').innerText = `Total Amount: ${amountSum}`;
+      document.getElementById('sareeSum').innerText = `Total Saree: ${sareeSum}`;
+      document.getElementById('saathSum').innerText = `Total Saath: ${saathSum}`;
+    };
+
+    function showForm() {
+      document.getElementById('formBox').style.display = 'block';
+    }
+
+    function submitForm() {
+      var name = document.getElementById('name').value;
+      var amount = parseInt(document.getElementById('amount').value); // Parse amount as an integer
+      var phone = document.getElementById('phone').value;
+      var village = document.getElementById('village').value;
+      var saree = document.getElementById('saree').value;
+      var saath = document.getElementById('saath').value;
+
+      var child = {
+        name: name,
+        amount: amount,
+        phone: phone,
+        village: village,
+        saree: saree,
+        saath: saath
+      };
+        // Check if any input fields are empty
+  if (!name || !amount || !phone || !village) {
+    alert('Please fill out all required fields (Name, Amount, Phone, Village).');
+    return;
+  }
+
+ 
+
+      // Save the child in localStorage
+      var savedChildren = JSON.parse(localStorage.getItem('children')) || [];
+      savedChildren.push(child);
+      localStorage.setItem('children', JSON.stringify(savedChildren));
+
+      // Display the child
+      displayChild(child);
+
+      // Increment and display the child count
+      childCount++;
+      document.getElementById('counter').innerText = `Total Children: ${childCount}`;
+
+      // Add the amount to the sum
+      amountSum += amount;
+      document.getElementById('amountSum').innerText = `Total Amount: ${amountSum}`;
+      localStorage.setItem('amountSum', amountSum);
+
+      // Add saree to the sum
+      sareeSum += parseInt(saree) || 0;
+      document.getElementById('sareeSum').innerText = `Total Saree: ${sareeSum}`;
+      localStorage.setItem('sareeSum', sareeSum);
+
+      // Add saath to the sum
+      saathSum += parseInt(saath) || 0;
+      document.getElementById('saathSum').innerText = `Total Saath: ${saathSum}`;
+      localStorage.setItem('saathSum', saathSum);
+
+      // Hide the form after submission
+      document.getElementById('formBox').style.display = 'none';
+
+      // Reset the form
+      document.getElementById('myForm').reset();
+    }
+
+    function displayChild(child) {
+      var listItem = document.createElement('li');
+      listItem.innerHTML = `<strong>Name:</strong> ${child.name}, <strong>Amount:</strong> ${child.amount}, <strong>Phone:</strong> ${child.phone}, <strong>Village:</strong> ${child.village}, <strong>Saree:</strong> ${child.saree || 'N/A'}, <strong>Saath:</strong> ${child.saath || 'N/A'}`;
+
+      var listContainer = document.getElementById('listContainer');
+      listContainer.appendChild(listItem);
+    }
+
+    function filterChildren() {
+      var searchInput = document.getElementById('searchInput').value.toLowerCase();
+      var listContainer = document.getElementById('listContainer');
+      var children = listContainer.getElementsByTagName('li');
+
+      for (var i = 0; i < children.length; i++) {
+        var childText = children[i].innerText.toLowerCase();
+
+        // Show or hide based on the search input
+        if (childText.includes(searchInput)) {
+          children[i].style.display = 'block';
+        } else {
+          children[i].style.display = 'none';
+        }
+      }
+    }
+
+</script>
+
+
+
+</body>
+</html>
