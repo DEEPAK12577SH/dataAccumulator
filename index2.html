@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 380px 20px 0px 20px;
+
+      background-color: #f4f4f4;
+    }
+
+    #formBox {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      z-index: 2;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    #formBox label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    #submitBtn {
+      background-color: #3498db;
+      color: #fff;
+      padding: 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #submitBtn:hover {
+      background-color: #2980b9;
+    }
+
+    #listContainer {
+      margin-top: 20px;
+      position: relative;
+      
+    }
+
+    #listContainer li {
+      list-style-type: none;
+      background-color: #f7eedd;
+      
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(187, 12, 240, 0.5);
+    }
+
+    #listContainer li strong {
+      color: #000000;
+    }
+    .dataviewer{
+      border-bottom: 2px solid green;
+      padding: 0px 0px 5px 0px;
+    }
+    
+    h3{
+      background-color: aquamarine;
+      padding-left: 20px;
+    }
+
+    .headview{
+        position:fixed;
+        top: 0%;
+        right: 1%;
+        left: 1%;
+        z-index: 100;
+        background-color: #f4f4f4;
+       
+    }
+    #amountSum{
+      background-color: #3ab322;
+      color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+    #counter,
+    #sareeSum,
+    #saathSum {
+      background-color: #58a8e9;
+      color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+
+    .addclearbtn{
+      background-color: green;
+      padding: 8px;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+    .addclearbtn1{
+      background-color: rgb(240, 110, 24);
+      padding: 8px;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+   
+    
+
+  </style>
+  <title>Floating Button and Form</title>
+</head>
+<body>
+    <div class="listcontainer1">
+        <div class="headview">
+            <h3> Our Registered Guests And Their Contribution.</h3>
+            <p>Search guest Contribution...</p>
+            <input type="text" id="searchInput" placeholder="Search..." oninput="filterChildren()">
+        
+            <!-- Counter -->
+            <div class="dataviewer">
+                <div id="counter">Total Guests: 0</div>
+        
+              <!-- Amount Sum -->
+              <div id="amountSum">Total Amount: 0</div>
+        
+              <!-- Saree Sum -->
+              <div id="sareeSum">Total Saree: 0</div>
+        
+              <!-- Saath Sum -->
+              <div id="saathSum">Total Saath: 0</div>
+            </div>
+          </div>
+
+           <!-- List Container -->
+      <div id="listContainer"></div>
+
+</div>
+ 
+
+  <!-- Floating Button -->
+
+ 
+  
+
+  <script>
+    // Array to store input values
+    const GuestDetails = [
+      {
+        name: 'Shree Thakur',
+        amount: 1000,
+        
+        village: 'Gadhwaa Bazaar',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Khutti Gaddi',
+        amount: 51,
+        phone: 'XXXXXXXXXX',
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Hawaldaar Gaddi',
+        amount: 100,
+        phone: 'XXXXXXXXXX',
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Budhan Singh',
+        amount: 100,
+        phone: 'XXXXXXXXXX',
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Samsul Hoda Gaddi',
+        amount: 200,
+        phone: 'XXXXXXXXXX',
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Majrul Gaddi',
+        amount: 100,
+        phone: 'XXXXXXXXXX',
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Ekbaal Gaddi',
+        amount: 100,
+        phone: 'XXXXXXXXXX',
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Kamrul Hoda Gaddi',
+        amount: 100,
+        phone: 'XXXXXXXXXX',
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Bishmallah Gaddi',
+        amount: 100,
+        phone: 'XXXXXXXXXX',
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Mahant Gaddi',
+        amount: 110,
+        phone: 'XXXXXXXXXX',
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Hadish Gaddi',
+        amount: 100,
+        phone: 'XXXXXXXXXX',
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Ishraaj Gaddi',
+        amount: 100,
+        phone: 'XXXXXXXXXX',
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Ishlaam Gaddi',
+        amount: 100,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Jamdaar Gaddi',
+        amount: 100,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Birendra Singh',
+        amount: 100,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Elihash Ansari',
+        amount: 105,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Balistar Singh',
+        amount: 105,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Fulman Gaddi',
+        amount: 150,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Doma Gaddi',
+        amount: 101,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Harun Gaddi',
+        amount: 121,
+        village: 'East-Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Jagat Sharma',
+        amount: 1001,
+        village: 'Dumri',
+        saree: '1',
+        saath: 'N'
+      },
+      {
+        name: 'Kuresh Gaddi',
+        amount: 100,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Fariyaad Gaddi',
+        amount: 100,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Munni Gaddi',
+        amount: 100,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Jalil Gaddi',
+        amount: 100,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Ranu Gaddi',
+        amount: 151,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Rambalak Singh',
+        amount: 252,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Bhanu Gaddi',
+        amount: 150,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Mahmud Alam Ansari',
+        amount: 105,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Budhram Bhagat',
+        amount: 251,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Jawahir Ram',
+        amount: 501,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Kewal Ram',
+        amount: 105,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Kailesh Mahto',
+        amount: 101,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Suket Mahto',
+        amount: 101,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Umesh Mahto',
+        amount: 101,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Raiful Gaddi',
+        amount: 100,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Sagir Ansari',
+        amount: 101,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Amir Ansari',
+        amount: 100,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Halim Gaddi',
+        amount: 200,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Hasim Ansari',
+        amount: 125,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Babujan Gaddi',
+        amount: 105,
+        village: 'W-Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+       {
+        name: 'Ramjeet Mahto',
+        amount: 101,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Kalaktar Singh',
+        amount: 251,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Shiv Bahadur Mahto',
+        amount: 111,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+
+
+      {
+        name: 'Hasmullah Ansari',
+        amount: 100,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+
+      {
+        name: 'Imam Gaddi',
+        amount: 102,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+
+      {
+        name: 'Lukhman Gaddi',
+        amount: 105,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+
+      {
+        name: 'Manir Gaddi',
+        amount: 101,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+
+      {
+        name: 'Umesh Bhagat',
+        amount: 200,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+
+      {
+        name: 'Ashram Singh',
+        amount: 101,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+
+      {
+        name: 'Ramadhar Singh',
+        amount: 105,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+
+      {
+        name: 'Jitendra Singh',
+        amount: 151,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Makrudhan Patel',
+        amount: 151,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Hajari Singh',
+        amount: 101,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      {
+        name: 'Rajendra Singh',
+        amount: 105,
+        village: 'Babuiya',
+        saree: 'N',
+        saath: 'N'
+      },
+      /*
+      { name: 'Amir Ansari', amount: 100, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Ashram Singh', amount: 101, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Balistar Singh', amount: 105, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Bhanu Gaddi', amount: 150, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Bhudhram Bhagat', amount: 251, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Birendra Singh', amount: 100, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Bishmallah Gaddi', amount: 100, phone: 'XXXXXXXXXX', village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Budhan Singh', amount: 100, phone: 'XXXXXXXXXX', village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Doma Gaddi', amount: 101, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Ekbaal Gaddi', amount: 100, phone: 'XXXXXXXXXX', village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Elihash Ansari', amount: 105, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Fariyaad Gaddi', amount: 100, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Fulman Gaddi', amount: 150, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Hadish Gaddi', amount: 100, phone: 'XXXXXXXXXX', village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Halim Gaddi', amount: 200, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Hawaldaar Gaddi', amount: 100, phone: 'XXXXXXXXXX', village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Hasim Ansari', amount: 125, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Hasmullah Ansari', amount: 100, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Harun Gaddi', amount: 121, village: 'East-Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Ishlaam Gaddi', amount: 100, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Ishraaj Gaddi', amount: 100, phone: 'XXXXXXXXXX', village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Imam Gaddi', amount: 102, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Jagat Sharma', amount: 1001, village: 'Dumri', saree: '1', saath: 'N' },
+  { name: 'Jamdaar Gaddi', amount: 100, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Jalil Gaddi', amount: 100, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Jawahir Ram', amount: 501, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Jitendra Singh', amount: 151, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Kailesh Mahto', amount: 101, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Kalaktar Singh', amount: 251, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Kamrul Hoda Gaddi', amount: 100, phone: 'XXXXXXXXXX', village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Kewal Ram', amount: 105, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Khutti Gaddi', amount: 51, phone: 'XXXXXXXXXX', village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Kuresh Gaddi', amount: 100, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Lukhman Gaddi', amount: 105, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Majrul Gaddi', amount: 100, phone: 'XXXXXXXXXX', village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Makrudhan Patel', amount: 151, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Manir Gaddi', amount: 101, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Mahant Gaddi', amount: 110, phone: 'XXXXXXXXXX', village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Mahmud Alam Ansari', amount: 105, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Makrudhan Patel', amount: 151, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Manir Gaddi', amount: 101, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Munni Gaddi', amount: 100, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Ramadhar Singh', amount: 105, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Ramjeet Mahto', amount: 101, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Rambalak Singh', amount: 252, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Ranu Gaddi', amount: 151, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Rajendra Singh', amount: 105, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Rukhman Gaddi', amount: 105, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Sagir Ansari', amount: 101, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Samsul Hoda Gaddi', amount: 200, phone: 'XXXXXXXXXX', village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Shree Thakur', amount: 1000, village: 'Gadhwaa Bazaar', saree: 'N', saath: 'N' },
+  { name: 'Shiv Bahadur Mahto', amount: 111, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Suket Mahto', amount: 101, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Umesh Bhagat', amount: 200, village: 'Babuiya', saree: 'N', saath: 'N' },
+  { name: 'Umesh Mahto', amount: 101, village: 'Babuiya', saree: 'N', saath: 'N' },*/
+
+      { name: 'Manu Singh', amount: 151, phone: '', village: 'Babuiya', saree: 'N/A', saath: 'N/A' },
+      { name: 'Vinay Singh', amount: 101, phone: '', village: 'Babuiya', saree: 'N/A', saath: 'N/A' },
+      { name: 'Gopichan Bhagat', amount: 100, phone: '', village: 'Babuiya', saree: 'N/A', saath: 'N/A' },
+      { name: 'Rajahusen Ansari', amount: 100, phone: '', village: 'Babuiya', saree: 'N/A', saath: 'N/A' },
+      { name: 'Lahwar Bhagat', amount: 100, phone: '', village: 'Babuiya', saree: 'N/A', saath: 'N/A' },
+      { name: 'Bikram Bhagat', amount: 101, phone: '', village: 'Babuiya', saree: 'N/A', saath: 'N/A' },
+      { name: 'Vijay Ram', amount: 100, phone: '', village: 'Babuiya', saree: 'N/A', saath: 'N/A' },
+      { name: 'Sulman Gaddi', amount: 100, phone: '', village: 'Babuiya', saree: 'N/A', saath: 'N/A' },
+      { name: 'Birendra Sharma', amount: 201, phone: '', village: 'Sikata', saree: 'N/A', saath: 'N/A' },
+      { name: 'Harilal Prasad Sharma', amount: 300, phone: '', village: 'Barawat', saree: 1, saath: 1 },
+      { name: 'Horil Mahto', amount: 501, phone: '', village: 'Kadamwaa', saree: 'N/A', saath: 'N/A' },
+      { name: 'Acchawabar Thakur', amount: 501, phone: '', village: 'Nuniyaa Tola', saree: 'N/A', saath: 'N/A' },
+      { name: 'Shambhu Sharma', amount: 510, phone: '', village: 'Siktaa', saree: 1, saath: 'N/A' },
+      { name: 'Chhathu Thakur', amount: 510, phone: '', village: 'Shripur', saree: 'N/A', saath: 'N/A' },
+      { name: 'Brijbihari Dube', amount: 1002, phone: '', village: 'Laukariaa', saree: 'N/A', saath: 'N/A' }
+     
+    ];
+
+    var childCount = 0; // Counter for the number of children
+    var amountSum = 0; // Variable to store the sum of amount
+    var sareeSum = 0;  // Variable to store the sum of saree
+    var saathSum = 0;  // Variable to store the sum of saath
+
+    // Load saved children from localStorage on page load
+    GuestDetails.forEach(function (child) {
+      displayChild(child);
+      // Update the counters
+      childCount++;
+      amountSum += child.amount;
+      sareeSum += parseInt(child.saree) || 0;
+      saathSum += parseInt(child.saath) || 0;
+    });
+
+    // Update counters
+    document.getElementById('counter').innerText = `Total Guests: ${childCount}`;
+    document.getElementById('amountSum').innerText = `Total Amount: Rs = ${amountSum} /-`;
+    document.getElementById('sareeSum').innerText = `Total Sarees: ${sareeSum}`;
+    document.getElementById('saathSum').innerText = `Total Saaths: ${saathSum}`;
+
+    function displayChild(child) {
+      var listItem = document.createElement('li');
+      listItem.innerHTML = `<strong>Name:</strong> ${child.name}, <strong>Amount:</strong> Rs=${child.amount}/-, <strong>Village:</strong> ${child.village}, <strong>Saree:</strong> ${child.saree || 'N/A'}, <strong>Saath:</strong> ${child.saath || 'N/A'}`;
+
+      var listContainer = document.getElementById('listContainer');
+      listContainer.appendChild(listItem);
+    }
+
+    function filterChildren() {
+      var searchInput = document.getElementById('searchInput').value.toLowerCase();
+      var listContainer = document.getElementById('listContainer');
+      var children = listContainer.getElementsByTagName('li');
+
+      for (var i = 0; i < children.length; i++) {
+        var childText = children[i].innerText.toLowerCase();
+
+        // Show or hide based on the search input
+        if (childText.includes(searchInput)) {
+          children[i].style.display = 'block';
+        } else {
+          children[i].style.display = 'none';
+        }
+      }
+    }
+  </script>
+</body>
+</html>
