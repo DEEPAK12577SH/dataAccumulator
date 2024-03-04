@@ -153,10 +153,11 @@
                     <p>Mobile No.: ${user.phone}</p>
                 `;
 
-                const userImage = document.createElement('img');
-                userImage.classList.add('user-image');
-                userImage.src =`images/${user.Image}`; // Fix: Use user.Image instead of user.image
-                userImage.alt = `${user.name}'s image`;
+            const userImage = document.createElement('img');
+             userImage.classList.add('user-image');
+              userImage.src = `images/${user.Image}`; // Fixed: Use user.Image instead of user.image
+              userImage.alt = `${user.name}'s image`;
+
 
                 userCard.appendChild(userDetails);
                 userCard.appendChild(userImage);
