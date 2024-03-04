@@ -51,6 +51,20 @@
         background-color: rgb(245, 233, 217);
         border: 1px solid orange;
     }
+    .uploadbtn {
+        padding: 5px;
+        margin-top: 10px;
+        background-color: #ff8c00;
+        border:none;
+        color:white;
+    }
+    .uploadbox{
+        display: flex;
+        align-items: center;
+        justify-content:space-between;
+    }
+    
+    
      /* CSS for small devices (less than or equal to 600px width) */
 @media only screen and (max-width: 600px) {
   /* Your CSS styles for small devices go here */
@@ -76,8 +90,11 @@
 </head>
 <body>
     <div class="heading"> <p>My family Aadhar Details<p></div>
-   
+   <div class="uploadbox"> 
     <input type="text" id="filter" class="searchbox" placeholder="Search...">
+       <a href="https://script.google.com/macros/s/AKfycby6QlpA4mC8skLfoVI0uCLJ4yjh9oPodfO1wPw3weMrj7G27LI-2lHBZIDRNz98iPn1WQ/exec">
+   <button class:"uploadbtn"> Upload File. </button> </a>
+    </div>
     <div id="userList"></div>
 
 <script>
