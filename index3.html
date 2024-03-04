@@ -99,6 +99,10 @@
 
 <script>
  const users = [
+ { name: "DEEPAK D SHARMA", adhar: "4982-4036-0461", dob: "22/12/1999", phone: "9934512577", Image: "Wonderful waste!.pdf" },
+{ name: "JAGDISH D CHANDRA SHARMA", adhar: "8311-7281-8097", dob: "12/07/1977", phone: "9472221651", Image: "17095543572672771176076124991018.jpg" },
+{ name: "SUNAINA D DEVI", adhar: "6263-3880-9037", dob: "10/01/1980", phone: "9472221651", Image: "17095548579636528230761616980463.jpg" }
+
  { name: "DEEPAK SHARMA", adhar: "4982-4036-0461", dob: "22/12/1999", phone: "9934512577", Image:"images/author11.png" },
  { name: "JAGDISH CHANDRA SHARMA", adhar: "8311-7281-8097", dob: "12/07/1977", phone: "9472221651", Image:"images/author.png" },
  { name: "SUNAINA DEVI", adhar: "6263-3880-9037", dob: "10/01/1980", phone: "9472221651", Image:"images/author.png" },
@@ -151,7 +155,7 @@
 
                 const userImage = document.createElement('img');
                 userImage.classList.add('user-image');
-                userImage.src = user.Image; // Fix: Use user.Image instead of user.image
+                userImage.src =`images/${user.Image}`; // Fix: Use user.Image instead of user.image
                 userImage.alt = `${user.name}'s image`;
 
                 userCard.appendChild(userDetails);
