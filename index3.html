@@ -155,7 +155,7 @@
 
             const userImage = document.createElement('img');
              userImage.classList.add('user-image');
-              userImage.src = `images/${user.Image}`; // Fixed: Use user.Image instead of user.image
+              userImage.src = user.Image; // Fixed: Use user.Image instead of user.image
               userImage.alt = `${user.name}'s image`;
 
 
